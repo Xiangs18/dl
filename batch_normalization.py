@@ -24,16 +24,17 @@ ACTIVATION = torch.tanh
 B_INIT = -0.2   # use a bad bias constant initializer
 
 # training data
-x = np.linspace(-7, 10, N_SAMPLES)[:, np.newaxis]
+x = np.linspace(-7, 10, N_SAMPLES)[:, np.newaxis]  # Dim: N_SAMPLES x 1
 noise = np.random.normal(0, 2, x.shape)
 y = np.square(x) - 5 + noise
 
 # test data
-test_x = np.linspace(-7, 10, 200)[:, np.newaxis]
+test_x = np.linspace(-7, 10, 200)[:, np.newaxis]   # Dim: 200 x 1
 noise = np.random.normal(0, 2, test_x.shape)
 test_y = np.square(test_x) - 5 + noise
 
-train_x, train_y = torch.from_numpy(x).float(), torch.from_numpy(y).float()
+train_x = torch.from_numpy(x).float()
+train_y = torch.from_numpy(y).float()
 test_x = torch.from_numpy(test_x).float()
 test_y = torch.from_numpy(test_y).float()
 
