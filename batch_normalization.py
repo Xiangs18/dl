@@ -42,7 +42,7 @@ train_dataset = Data.TensorDataset(train_x, train_y)
 train_loader = Data.DataLoader(dataset=train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2,)
 
 # show data
-plt.scatter(train_x.numpy(), train_y.numpy(), c='#FF9359', s=50, alpha=0.2, label='train')
+plt.scatter(train_x.numpy(), train_y.numpy(), c='#FF9359', s=50, alpha=0.3, label='train')
 plt.legend(loc='upper left')
 
 
@@ -74,12 +74,14 @@ class Net(nn.Module):
 
     def forward(self, x):
         pre_activation = [x]
-        if self.do_bn: x = self.bn_input(x)     # input batch normalization
+        if self.do_bn:
+            x = self.bn_input(x)     # input batch normalization
         layer_input = [x]
         for i in range(N_HIDDEN):
             x = self.fcs[i](x)
             pre_activation.append(x)
-            if self.do_bn: x = self.bns[i](x)   # batch normalization
+            if self.do_bn:
+                x = self.bns[i](x)   # batch normalization
             x = ACTIVATION(x)
             layer_input.append(x)
         out = self.predict(x)
@@ -98,15 +100,25 @@ def plot_histogram(l_in, l_in_bn, pre_ac, pre_ac_bn):
     for i, (ax_pa, ax_pa_bn, ax, ax_bn) in enumerate(zip(axs[0, :], axs[1, :], axs[2, :], axs[3, :])):
         [a.clear() for a in [ax_pa, ax_pa_bn, ax, ax_bn]]
         if i == 0:
-            p_range = (-7, 10);the_range = (-7, 10)
+            p_range = (-7, 10)
+            the_range = (-7, 10)
         else:
-            p_range = (-4, 4);the_range = (-1, 1)
+            p_range = (-4, 4)
+            the_range = (-1, 1)
         ax_pa.set_title('L' + str(i))
-        ax_pa.hist(pre_ac[i].data.numpy().ravel(), bins=10, range=p_range, color='#FF9359', alpha=0.5);ax_pa_bn.hist(pre_ac_bn[i].data.numpy().ravel(), bins=10, range=p_range, color='#74BCFF', alpha=0.5)
-        ax.hist(l_in[i].data.numpy().ravel(), bins=10, range=the_range, color='#FF9359');ax_bn.hist(l_in_bn[i].data.numpy().ravel(), bins=10, range=the_range, color='#74BCFF')
-        for a in [ax_pa, ax, ax_pa_bn, ax_bn]: a.set_yticks(());a.set_xticks(())
-        ax_pa_bn.set_xticks(p_range);ax_bn.set_xticks(the_range)
-        axs[0, 0].set_ylabel('PreAct');axs[1, 0].set_ylabel('BN PreAct');axs[2, 0].set_ylabel('Act');axs[3, 0].set_ylabel('BN Act')
+        ax_pa.hist(pre_ac[i].data.numpy().ravel(), bins=10, range=p_range, color='#FF9359', alpha=0.5)
+        ax_pa_bn.hist(pre_ac_bn[i].data.numpy().ravel(), bins=10, range=p_range, color='#74BCFF', alpha=0.5)
+        ax.hist(l_in[i].data.numpy().ravel(), bins=10, range=the_range, color='#FF9359')
+        ax_bn.hist(l_in_bn[i].data.numpy().ravel(), bins=10, range=the_range, color='#74BCFF')
+        for a in [ax_pa, ax, ax_pa_bn, ax_bn]:
+            a.set_yticks(())
+            a.set_xticks(())
+        ax_pa_bn.set_xticks(p_range)
+        ax_bn.set_xticks(the_range)
+        axs[0, 0].set_ylabel('PreAct')
+        axs[1, 0].set_ylabel('BN PreAct')
+        axs[2, 0].set_ylabel('Act')
+        axs[3, 0].set_ylabel('BN Act')
     plt.pause(0.01)
 
 
@@ -144,7 +156,8 @@ if __name__ == "__main__":
     plt.figure(2)
     plt.plot(losses[0], c='#FF9359', lw=3, label='Original')
     plt.plot(losses[1], c='#74BCFF', lw=3, label='Batch Normalization')
-    plt.xlabel('step');plt.ylabel('test loss');plt.ylim((0, 2000));plt.legend(loc='best')
+    plt.xlabel('step');plt.ylabel('test loss')
+    plt.ylim((0, 2000));plt.legend(loc='best')
 
     # evaluation
     # set net to eval mode to freeze the parameters in batch normalization layers
