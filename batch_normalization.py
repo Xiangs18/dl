@@ -42,6 +42,7 @@ train_dataset = Data.TensorDataset(train_x, train_y)
 train_loader = Data.DataLoader(dataset=train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2,)
 
 # show data
+# s --> marker size; alpha -->(0,1) 0 is transparent where 1 is opaque
 plt.scatter(train_x.numpy(), train_y.numpy(), c='#FF9359', s=50, alpha=0.3, label='train')
 plt.legend(loc='upper left')
 
