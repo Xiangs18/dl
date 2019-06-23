@@ -46,6 +46,9 @@ train_loader = Data.DataLoader(dataset=train_dataset, batch_size=BATCH_SIZE, shu
 plt.scatter(train_x.numpy(), train_y.numpy(), c='#FF9359', s=50, alpha=0.3, label='train')
 plt.legend(loc='upper left')
 
+print("*" * 20)
+print("The following is batch_norm in action")
+print("*" * 20)
 
 class Net(nn.Module):
     def __init__(self, batch_normalization=False):
