@@ -1,4 +1,4 @@
-# Deeplearning-Pytorch
+# Deep learning with Pytorch
 
 I run these codes line by line to learn Pytorch framework.
 
